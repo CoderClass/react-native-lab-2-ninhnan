@@ -46,15 +46,12 @@ export default class HomePage extends Component {
     render() {
         return (
             <ListView dataSource={this.state.dataSource}
-                      renderRow={(rowData) => <View>
+                      renderRow={(rowData) => <View >
                           <Text>{rowData}</Text>
                           <Switch
                               onValueChange={(value) => this.setState({falseSwitchIsOn: value})}
                               style={{marginBottom: 10}}
                               value={this.state.falseSwitchIsOn} />
-                          <Switch
-                              onValueChange={(value) => this.setState({trueSwitchIsOn: value})}
-                              value={this.state.trueSwitchIsOn} />
                       </View>}/>
         );
     }

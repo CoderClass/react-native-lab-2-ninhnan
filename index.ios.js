@@ -12,11 +12,12 @@ import {
 
 import HomePage from "./app/home";
 import Setting from "./app/setting";
+import Login from "./app/login";
 
 export default class LabW2 extends Component {
   render() {
     return(
-      <Setting/>
+      <Login/>
     );
   }
 }
