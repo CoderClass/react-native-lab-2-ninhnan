@@ -2,12 +2,26 @@ import React, { Component } from 'react';
 import {
     View,
     TouchableOpacity,
-    Text
+    Text,
+    Navigator
 } from 'react-native';
 import { LoginManager, AccessToken, GraphRequest, GraphRequestManager, } from 'react-native-fbsdk';
 
+import Home from './home';
+
+import {connect} from 'react-redux';
+import {actionCreators} from "./reducer.js";
 
 export default class LabW2 extends Component {
+
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            dataProps : '',
+            dataRedux : ''
+        }
+    }
 
     onConnectFacebook() {
         LoginManager.logInWithReadPermissions(['public_profile']).then((result) => {
@@ -41,29 +55,37 @@ export default class LabW2 extends Component {
             alert('Error fetching data: ' + error.toString());
         } else {
             alert('Success fetching data: ' + JSON.stringify(result));
+            dispatch(actionCreators.storeDataScene1({dataReduxFromScene1: result})); //
+            navigator.push({
+                title: 'Home',
+                component: Home,
+                passProps: {dataPropsFromScene1: result}
+            });
         }
     }
 
     render() {
-        return (<View
+
+        const {navigator, dispatch} = this.props;
+
+
+        return (
+            <View
             style={{
                 flex: 1,
                 alignItems: 'center', justifyContent: 'center',
-            }}
-        >
+            }}>
             <TouchableOpacity
                 style={{
                     backgroundColor: 'blue',
                     width: 200, height: 40,
                     alignItems: 'center', justifyContent: 'center',
                 }}
-                onPress={this.onConnectFacebook.bind(this)}
-            >
+                onPress={this.onConnectFacebook.bind(this)}>
                 <Text
                     style={{
                         color: '#fff',
-                    }}
-                >
+                    }}>
                     Connect with Facebook
                 </Text>
             </TouchableOpacity>
@@ -71,3 +93,11 @@ export default class LabW2 extends Component {
         </View>);
     }
 }
+
+const mapStateToProps = (state) => {
+    return {
+        hehehe : state.searchReducer.params
+    }
+}
+
+export default connect(mapStateToProps)(Scene1);
